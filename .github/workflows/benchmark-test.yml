@@ -1,0 +1,83 @@
+name: Test Benchmark Workflow
+
+on:
+  pull_request:
+    branches: [ main ]
+    # Only run if benchmark-related files are changed
+    paths:
+      - 'benchmarks/**'
+      - 'asv.conf.json'
+      - '.github/workflows/benchmark-*.yml'
+      - 'versions.txt'
+
+permissions:
+  contents: read
+
+jobs:
+  test-benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      - name: Install ASV
+        run: pip install asv
+        
+      - name: Setup versions file
+        run: |
+          # Create versions.txt if it doesn't exist
+          if [ ! -f "versions.txt" ]; then
+            echo "Creating initial versions.txt file"
+            # Start with current latest release
+            echo "0.6.3" > versions.txt
+          fi
+          
+      - name: Show versions to benchmark
+        run: |
+          echo "Versions to test:"
+          cat versions.txt
+          
+      - name: Install scikit-bio dependencies
+        run: |
+          # Install dependencies needed to build scikit-bio from source
+          pip install numpy scipy cython
+
+      - name: Gather machine information
+        run: |
+          asv machine --yes
+
+      - name: Test benchmark setup
+        run: |
+          # Test that ASV can find and validate the benchmarks
+          asv check
+          
+      - name: Run quick benchmark test
+        run: |
+          # Run a quick benchmark on just the latest version to test everything works
+          LATEST_VERSION=$(tail -n 1 versions.txt)
+          echo "Testing benchmark for version: $LATEST_VERSION"
+          asv run $LATEST_VERSION^! --quick
+          
+      - name: Generate HTML
+        run: asv publish
+        
+      - name: Test Summary
+        run: |
+          echo "Benchmark test completed successfully!"
+          echo "Generated HTML files:"
+          ls -la .asv/html/ || echo "No HTML files generated"
+          echo ""
+          echo "The benchmark workflow is ready for production deployment."
+          echo "When this PR is merged, the production workflow will run and deploy to GitHub Pages."
+          
+      - name: Upload test results as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-test-results
+          path: .asv/html/
+          retention-days: 7

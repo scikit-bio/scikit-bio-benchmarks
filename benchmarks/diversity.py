@@ -5,7 +5,7 @@ from skbio.tree import TreeNode
 import numpy as np
 from io import StringIO
 
-class SequenceSuite:
+class DiversitySuite:
 
     def setup(self):
         self.counts = np.array([0, 1, 1, 4, 2, 5, 2, 4, 1, 2])

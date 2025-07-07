@@ -1,7 +1,8 @@
 name: Benchmark Specific Releases
 
 on:
-  # Only manual triggering
+  push:
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       new_version:
@@ -114,7 +115,7 @@ jobs:
         uses: actions/configure-pages@v5
         
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: '.asv/html'
           
