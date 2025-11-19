@@ -13,7 +13,7 @@ class Tree:
         # bme and gme aren't available in all versions of skbio being benchmarked.
         # Need to make sure that an ImportError doesn't occur otherwise none of the benchmarks
         # here will run.
-        self.bme_available = True
+        bme_available = True
         self.bme = None
         try:
             from skbio.tree import bme
@@ -21,7 +21,7 @@ class Tree:
         except ImportError:
             self.bme_available = False
 
-        self.gme_available = True
+        gme_available = True
         self.gme = None
         try:
             from skbio.tree import gme
@@ -32,10 +32,10 @@ class Tree:
     def time_nj(self):
         return nj(self.dm)
 
-    @skip_benchmark_if(not self.bme_available)
+    @skip_benchmark_if(not bme_available)
     def time_bme(self):
         return self.bme(self.dm)
 
-    @skip_benchmark_if(not self.gme_available)
+    @skip_benchmark_if(not gme_available)
     def time_gme(self):
         return self.gme(self.dm)
