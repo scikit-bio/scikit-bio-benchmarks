@@ -24,7 +24,7 @@ class Tree:
         try:
             from skbio.tree import gme
             self.gme = gme
-            self.gme_available = False
+            self.gme_available = True
         except ImportError:
             self.gme = None
             self.gme_available = False
