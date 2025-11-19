@@ -3,6 +3,7 @@ name: Benchmark Specific Releases
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: write
