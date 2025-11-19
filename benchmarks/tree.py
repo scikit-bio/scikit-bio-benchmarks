@@ -2,12 +2,11 @@
 
 from skbio.stats.distance import randdm
 from skbio.tree import nj
-from asv_runner.benchmarks.mark import skip_benchmark_if
 
 
 class Tree:
     def setup(self):
-        size = 500
+        size = 250
         self.dm = randdm(size)
 
         # bme and gme aren't available in all versions of skbio being benchmarked.
