@@ -3,6 +3,7 @@
 from skbio.stats.distance import randdm
 from skbio.tree import nj
 
+from asv_runner.benchmarks.mark import SkipNotImplemented
 
 class Tree:
     def setup(self):
@@ -33,10 +34,10 @@ class Tree:
 
     def time_bme(self):
         if not self.bme_available:
-            raise NotImplementedError("bme not available")
+            raise SkipNotImplemented("bme not available")
         return self.bme(self.dm)
 
     def time_gme(self):
         if not self.gme_available:
-            raise NotImplementedError("gme not available")
+            raise SkipNotImplemented("gme not available")
         return self.gme(self.dm)
