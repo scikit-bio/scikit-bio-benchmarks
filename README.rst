@@ -65,20 +65,11 @@ Local Development
 Triggering Benchmarking
 -----------------------
 
-This repository uses GitHub Actions to automatically benchmark new scikit-bio releases:
+This repository uses GitHub Actions to benchmark new scikit-bio releases. To add one:
 
-1. **Manual Trigger**: Go to Actions → "Benchmark Specific Releases" → "Run workflow"
-2. **Add New Version**: Enter the new release version (e.g., ``0.6.4``)
-3. **Deploy**: Results are automatically published to GitHub Pages
-
-The workflow will:
-
-- Add the new version to ``versions.txt``
-- Run benchmarks for the specified version
-- Generate HTML reports
-- Deploy to GitHub Pages
-- Commit the updated version list
-
+1. **Open a PR**: Add the new release version (e.g., ``0.7.3``) to ``versions.txt``.
+2. **Test run**: Opening the PR triggers a benchmark run to verify everything works. No results are deployed.
+3. **Merge**: Merging the PR runs the full benchmarks and deploys the HTML reports to GitHub Pages.
 
 Configuration
 -------------

@@ -59,7 +59,8 @@ class Ordination:
 class Composition:
     def setup(self):
         size = 500
-        self.mat = np.random.rand(size, size)
+        n_feats = 50
+        self.mat = np.random.rand(size, n_feats)
         self.df = pd.DataFrame(data=self.mat)
         # make a random matrix with some zeros in it
         self.mat_z = self.mat * (self.mat > 0.2)
